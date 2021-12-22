@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import Select, { OptionProps, StylesConfig } from "react-select";
-
-import { cities, data, filterOptions } from "../constants";
+import Select from "react-select";
+import { cities, filterOptions } from "../constants";
 import { DataContext } from "../context";
 import { useDebounce } from "../hooks";
 import { FilterState, SelectType } from "../types";

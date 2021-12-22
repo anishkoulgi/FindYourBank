@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
-
+import { useHistory } from "react-router-dom";
 import { columns } from "../constants";
-import { Bank } from "../types";
 import { DataContext } from "../context";
+import { Bank } from "../types";
 
 interface Props {
   row: Bank;

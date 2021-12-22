@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "react-loading-skeleton/dist/skeleton.css";
 
 import Nav from "./components/Nav";
-import NotFound from "./views/NotFound";
 import DataContextProvider from "./context";
 import { BankInfo, Favorites, Home } from "./views";
 import { Sidebar } from "./components";
@@ -25,9 +24,6 @@ const App = () => {
               </Route>
               <Route exact path="/favorites">
                 <Favorites />
-              </Route>
-              <Route>
-                <NotFound />
               </Route>
             </Switch>
           </div>

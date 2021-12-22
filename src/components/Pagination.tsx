@@ -1,11 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Select from "react-select";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
-
-import { data, PaginationOptions } from "../constants";
-import { colourStyles, CustomOption } from "./SelectOption";
-import { SelectType } from "../types";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { DataContext } from "../context";
 import { useDebounce } from "../hooks";
 

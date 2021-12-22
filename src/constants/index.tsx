@@ -1,4 +1,3 @@
-import React from "react";
 export const BASE_URL = "https://vast-shore-74260.herokuapp.com/banks?city=";
 
 export const columns = [
@@ -63,5 +62,3 @@ export const PaginationOptions = [
   { label: "10", value: 10 },
   { label: "20", value: 20 },
 ];
-
-export * from "./data";
