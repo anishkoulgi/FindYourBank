@@ -1,5 +1,6 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { data } from "../constants";
+import { fetchBankData } from "../helpers";
 import { Bank, DataContext as DataContextType, FilterState } from "../types";
 
 export const DataContext = createContext<DataContextType>({
@@ -26,6 +27,13 @@ const filterFunc = (bank: Bank, filters: FilterState, query: string) => {
 const DataContextProvider: React.FC = ({ children }) => {
   const [banks, setBanks] = useState<Bank[] | null>(null);
   const [filteredData, setFilteredData] = useState<Bank[] | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const banks = await fetchBankData();
+      if (setBankData) setBankData(banks);
+    })();
+  }, []);
 
   const setBankData = (banks: Bank[]) => {
     setBanks(banks);
