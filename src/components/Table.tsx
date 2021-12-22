@@ -10,6 +10,7 @@ import FileSvg from "../assets/file.svg";
 
 const Table = () => {
   const { filteredData } = useContext(DataContext);
+  console.log(filteredData);
 
   const [pagination, setPagination] = useState({ rowsPerPage: 10, page: 0 });
   const { page, rowsPerPage } = pagination;
