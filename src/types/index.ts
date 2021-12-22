@@ -13,6 +13,7 @@ export interface Bank {
 export interface FilterState {
   city: string | null;
   filter: string | null;
+  query: string;
 }
 
 export interface SelectType {
@@ -22,9 +23,11 @@ export interface SelectType {
 
 export interface DataContext {
   data: Bank[] | null;
+  filters: FilterState;
   filteredData: Bank[] | null;
   favoriteBanks: Bank[] | null;
-  filterBanks: null | ((filters: FilterState, query: string) => void);
+  filterBanks: null | (() => void);
   setBankData: ((banks: Bank[]) => void) | null;
   toggleFavorite: ((bank: Bank) => void) | null;
+  setFilters: React.Dispatch<React.SetStateAction<FilterState>> | null;
 }

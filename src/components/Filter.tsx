@@ -8,21 +8,19 @@ import { FilterState, SelectType } from "../types";
 import { colourStyles, CustomOption } from "./SelectOption";
 
 const Filter = () => {
-  const [filters, setFilters] = useState<FilterState>({
-    city: null,
-    filter: null,
-  });
-  const [value, setValue] = useState("");
-  const { filteredData, filterBanks } = useContext(DataContext);
-  const debouncedQuery = useDebounce(value, 300);
+  const { filters, setFilters, filteredData, filterBanks } =
+    useContext(DataContext);
+  //const [value, setValue] = useState(filters.query || "");
+  const debouncedQuery = useDebounce(filters.query, 300);
 
   const isMounted = useRef<boolean | null>(null);
 
   useEffect(() => {
     if (filterBanks && isMounted.current) {
-      filterBanks(filters, value);
+      console.log("hello");
+      filterBanks();
     }
-  }, [debouncedQuery, filters]);
+  }, [debouncedQuery, filters.city, filters.filter]);
 
   useEffect(() => {
     isMounted.current = true;
@@ -33,11 +31,11 @@ const Filter = () => {
 
   const handleChange = (val: SelectType, type: "city" | "filter") => {
     if (val && filters[type] != val.value)
-      setFilters((prev) => {
+      setFilters!((prev) => {
         return { ...prev, [type]: val.value };
       });
     else {
-      setFilters((prev) => {
+      setFilters!((prev) => {
         return { ...prev, [type]: null };
       });
     }
@@ -70,6 +68,15 @@ const Filter = () => {
           styles={colourStyles}
           components={{ Option: CustomOption }}
           isSearchable={false}
+          defaultValue={
+            filters.city
+              ? {
+                  label: cities.find((city) => city.value === filters.city)
+                    ?.label,
+                  value: filters.city,
+                }
+              : null
+          }
           isClearable
           onChange={(val: any) => {
             handleChange(val, "city");
@@ -82,6 +89,16 @@ const Filter = () => {
           placeholder="Select Filter"
           styles={colourStyles}
           components={{ Option: CustomOption }}
+          defaultValue={
+            filters.filter
+              ? {
+                  label: filterOptions.find(
+                    (filter) => filter.value === filters.filter
+                  )?.label,
+                  value: filters.filter,
+                }
+              : null
+          }
           isSearchable={false}
           isClearable
           onChange={(val: any) => {
@@ -92,9 +109,11 @@ const Filter = () => {
       <input
         className="w-44 py-2 px-2 rounded-lg border border-gray-300 ml-6 text-xs outline-none hover:border-gray-400 transition-all focus:border-primary"
         placeholder="Search"
-        value={value}
+        value={filters.query}
         onChange={(e) => {
-          setValue(e.target.value);
+          setFilters!((prev) => {
+            return { ...prev, query: e.target.value };
+          });
         }}
       />
     </div>

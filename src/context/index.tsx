@@ -9,6 +9,8 @@ export const DataContext = createContext<DataContextType>({
   setBankData: null,
   favoriteBanks: null,
   toggleFavorite: null,
+  filters: { city: null, filter: null, query: "" },
+  setFilters: null,
 });
 
 const filterFunc = (bank: Bank, filters: FilterState, query: string) => {
@@ -28,6 +30,11 @@ const DataContextProvider: React.FC = ({ children }) => {
   const [banks, setBanks] = useState<Bank[] | null>(null);
   const [favorite, setFavorite] = useState<Bank[]>([]);
   const [filteredData, setFilteredData] = useState<Bank[] | null>(null);
+  const [filters, setFilters] = useState<FilterState>({
+    city: null,
+    filter: null,
+    query: "",
+  });
 
   useEffect(() => {
     (async () => {
@@ -71,10 +78,10 @@ const DataContextProvider: React.FC = ({ children }) => {
     }
   };
 
-  const filterBanks = (filters: FilterState, query: string) => {
+  const filterBanks = () => {
     if (!banks) return;
     const filteredBanks = banks.filter((bank) =>
-      filterFunc(bank, filters, query)
+      filterFunc(bank, filters, filters.query)
     );
     setFilteredData(filteredBanks);
   };
@@ -88,6 +95,8 @@ const DataContextProvider: React.FC = ({ children }) => {
         setBankData,
         favoriteBanks: favorite,
         toggleFavorite,
+        filters,
+        setFilters,
       }}
     >
       {children}

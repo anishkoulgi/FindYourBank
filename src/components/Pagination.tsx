@@ -30,7 +30,7 @@ const Pagination: React.FC<Props> = ({
   useEffect(() => {
     if (isMounted.current) {
       const numValue = value;
-      if (numValue >= 1 && numValue < filteredData!.length) {
+      if (numValue >= 1 && numValue <= filteredData!.length) {
         setPagination((prev) => {
           return { ...prev, rowsPerPage: numValue };
         });
@@ -64,9 +64,8 @@ const Pagination: React.FC<Props> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const numValue = Number(e.target.value);
-    console.log(numValue);
     setValue(numValue);
-    if (numValue >= 1 && numValue < filteredData!.length) {
+    if (numValue >= 1 && numValue <= filteredData!.length) {
       setError(false);
     } else {
       setError(true);

@@ -30,20 +30,24 @@ const Table = () => {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((bank, i) => <TableRow row={bank} key={i} />)
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center">
-                  <img className="h-20 text-gray-400" src={FileSvg} />
-                  <p className="text-sm font-medium text-gray-500">
-                    {" "}
-                    No Data Found{" "}
-                  </p>
-                </div>
+                <tr className="w-full h-full flex flex-col items-center justify-center">
+                  <td>
+                    <img className="h-20 text-gray-400" src={FileSvg} />
+                    <p className="text-sm font-medium text-gray-500">
+                      {" "}
+                      No Data Found{" "}
+                    </p>
+                  </td>
+                </tr>
               )
             ) : (
-              <SkeletonTheme baseColor="#f9fafb" highlightColor="#f3f4f6">
-                <div className="p-2">
-                  <Skeleton className="h-20 my-2" count={4} />
-                </div>
-              </SkeletonTheme>
+              <tr className="table p-2 h-full w-full ">
+                <td className="h-full w-full ">
+                  <SkeletonTheme baseColor="#f9fafb" highlightColor="#f3f4f6">
+                    <Skeleton className="h-20 my-2" count={4} />
+                  </SkeletonTheme>
+                </td>
+              </tr>
             )}
           </tbody>
         </table>

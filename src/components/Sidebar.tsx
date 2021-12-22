@@ -18,11 +18,10 @@ const routes = [
 
 const Sidebar = () => {
   const { pathname } = useLocation();
-  console.log(pathname);
   return (
     <div>
-      {routes.map((route) => (
-        <Link to={route.path}>
+      {routes.map((route, i) => (
+        <Link key={i} to={route.path}>
           <div
             className={`py-2 px-5 my-2 flex items-center rounded-md ${
               pathname === route.path

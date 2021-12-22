@@ -1,5 +1,8 @@
 export const BASE_URL = "https://vast-shore-74260.herokuapp.com/banks?city=";
 
+export const MINS = 60000;
+export const SECONDS = 1000;
+
 export const columns = [
   {
     name: "Bank",

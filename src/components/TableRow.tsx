@@ -40,6 +40,7 @@ const TableRow: React.FC<Props> = ({ row }) => {
       </td>
       {columns.map((column) => (
         <td
+          key={column.name}
           className={`text-xs py-6 px-2 flex border-t border-gray-300 justify-center items-center text-center`}
           style={{ ...column.style }}
         >
