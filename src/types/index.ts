@@ -7,6 +7,7 @@ export interface Bank {
   district: string;
   state: string;
   bank_name: string;
+  isFavorite: boolean;
 }
 
 export interface FilterState {
@@ -22,6 +23,8 @@ export interface SelectType {
 export interface DataContext {
   data: Bank[] | null;
   filteredData: Bank[] | null;
+  favoriteBanks: Bank[] | null;
   filterBanks: null | ((filters: FilterState, query: string) => void);
   setBankData: ((banks: Bank[]) => void) | null;
+  toggleFavorite: ((bank: Bank) => void) | null;
 }

@@ -5,27 +5,27 @@ export const columns = [
   {
     name: "Bank",
     key: "bank_name",
-    style: { flex: "2", fontWeight: 600 },
+    style: { flex: "3", fontWeight: 600 },
   },
   {
     name: "IFSC",
     key: "ifsc",
-    style: { flex: "2", fontWeight: 600 },
+    style: { flex: "3", fontWeight: 600 },
   },
   {
     name: "Branch",
     key: "branch",
-    style: { flex: "1" },
+    style: { flex: "2" },
   },
   {
     name: "Bank ID",
     key: "bank_id",
-    style: { flex: "1" },
+    style: { flex: "2" },
   },
   {
     name: "Address",
     key: "address",
-    style: { flex: "3" },
+    style: { flex: "4" },
   },
 ];
 

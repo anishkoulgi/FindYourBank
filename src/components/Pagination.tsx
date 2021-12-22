@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Select from "react-select";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
@@ -7,6 +7,7 @@ import { data, PaginationOptions } from "../constants";
 import { colourStyles, CustomOption } from "./SelectOption";
 import { SelectType } from "../types";
 import { DataContext } from "../context";
+import { useDebounce } from "../hooks";
 
 interface Props {
   pagination: { rowsPerPage: number; page: number };
@@ -25,6 +26,29 @@ const Pagination: React.FC<Props> = ({
   setPagination,
 }) => {
   const { filteredData } = useContext(DataContext);
+  const [value, setValue] = useState(10);
+  const [error, setError] = useState(false);
+  const debouncedQuery = useDebounce(value, 300);
+
+  const isMounted = useRef<boolean | null>(null);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      const numValue = value;
+      if (numValue >= 1 && numValue < filteredData!.length) {
+        setPagination((prev) => {
+          return { ...prev, rowsPerPage: numValue };
+        });
+      }
+    }
+  }, [debouncedQuery]);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   const { page, rowsPerPage } = pagination;
   const currentItem = page * rowsPerPage + 1;
@@ -43,11 +67,15 @@ const Pagination: React.FC<Props> = ({
     });
   };
 
-  const handleChange = (val: SelectType) => {
-    if (val.value !== rowsPerPage)
-      setPagination((prev) => {
-        return { ...prev, rowsPerPage: val.value as number };
-      });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const numValue = Number(e.target.value);
+    console.log(numValue);
+    setValue(numValue);
+    if (numValue >= 1 && numValue < filteredData!.length) {
+      setError(false);
+    } else {
+      setError(true);
+    }
   };
 
   if (!filteredData) {
@@ -66,17 +94,19 @@ const Pagination: React.FC<Props> = ({
   }
 
   return (
-    <div className="py-2 flex items-center justify-end px-2">
+    <div className="py-2 flex items-center justify-end px-2 border-t border-gray-300">
       <p className="text-xs text-gray-500">Rows per page</p>
       <div className="w-20 ml-1">
-        <Select
-          options={PaginationOptions}
-          defaultValue={{ label: "10", value: 10 }}
-          styles={colourStyles}
-          components={{ Option: CustomOption }}
-          isSearchable={false}
-          menuPlacement="auto"
-          onChange={(val: any) => handleChange(val)}
+        <input
+          type="number"
+          value={value.toString()}
+          style={{ width: `${value.toString().length + 1}ch` }}
+          className={`w-full border-b ${
+            error ? "border-red-500" : "border-gray-300"
+          }  text-center outline-none focus:border-primary text-sm`}
+          onChange={(e) => {
+            handleChange(e);
+          }}
         />
       </div>
       <div className="flex ml-8 items-center">

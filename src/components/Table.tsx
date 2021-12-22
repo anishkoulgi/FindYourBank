@@ -10,7 +10,6 @@ import FileSvg from "../assets/file.svg";
 
 const Table = () => {
   const { filteredData } = useContext(DataContext);
-  console.log(filteredData);
 
   const [pagination, setPagination] = useState({ rowsPerPage: 10, page: 0 });
   const { page, rowsPerPage } = pagination;
@@ -23,7 +22,7 @@ const Table = () => {
           <Header />
           <tbody
             className="block"
-            style={{ height: "60vh", minHeight: "400px", overflow: "auto" }}
+            style={{ height: "50vh", minHeight: "400px", overflow: "auto" }}
           >
             {filteredData !== null ? (
               filteredData.length > 0 ? (

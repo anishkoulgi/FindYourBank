@@ -23,6 +23,9 @@ export const fetchBankData = async () => {
     })
   );
   data = [].concat(...res);
+  data = data.map((bank) => {
+    return { ...bank, isFavorite: false };
+  });
   const cacheData = { data, createdAt: Date.now() };
   cache.put("data.json", new Response(JSON.stringify(cacheData)));
   return data;

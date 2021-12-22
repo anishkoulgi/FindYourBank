@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useState } from "react";
-import { data } from "../constants";
 import { fetchBankData } from "../helpers";
 import { Bank, DataContext as DataContextType, FilterState } from "../types";
 
@@ -8,6 +7,8 @@ export const DataContext = createContext<DataContextType>({
   filteredData: null,
   filterBanks: null,
   setBankData: null,
+  favoriteBanks: null,
+  toggleFavorite: null,
 });
 
 const filterFunc = (bank: Bank, filters: FilterState, query: string) => {
@@ -19,13 +20,13 @@ const filterFunc = (bank: Bank, filters: FilterState, query: string) => {
       (bank[filters.filter as keyof Bank] as string).includes(
         query.toUpperCase()
       );
-    console.log(flag, query);
   }
   return flag;
 };
 
 const DataContextProvider: React.FC = ({ children }) => {
   const [banks, setBanks] = useState<Bank[] | null>(null);
+  const [favorite, setFavorite] = useState<Bank[]>([]);
   const [filteredData, setFilteredData] = useState<Bank[] | null>(null);
 
   useEffect(() => {
@@ -40,6 +41,36 @@ const DataContextProvider: React.FC = ({ children }) => {
     setFilteredData(banks);
   };
 
+  const toggleFavorite = (bank: Bank) => {
+    setBanks((prev) => {
+      let newArr = prev?.map((prevBank) => {
+        if (prevBank.ifsc === bank.ifsc)
+          return { ...prevBank, isFavorite: !bank.isFavorite };
+        return prevBank;
+      });
+      return newArr!;
+    });
+    setFilteredData((prev) => {
+      let newArr = prev?.map((prevBank) => {
+        if (prevBank.ifsc === bank.ifsc)
+          return { ...prevBank, isFavorite: !bank.isFavorite };
+        return prevBank;
+      });
+      return newArr!;
+    });
+    if (!bank.isFavorite)
+      setFavorite((prev) => [
+        ...prev,
+        { ...bank, isFavorite: !bank.isFavorite },
+      ]);
+    else {
+      setFavorite((prev) => {
+        let newArr = prev.filter((prevBank) => prevBank.ifsc !== bank.ifsc);
+        return newArr;
+      });
+    }
+  };
+
   const filterBanks = (filters: FilterState, query: string) => {
     if (!banks) return;
     const filteredBanks = banks.filter((bank) =>
@@ -50,7 +81,14 @@ const DataContextProvider: React.FC = ({ children }) => {
 
   return (
     <DataContext.Provider
-      value={{ data: banks, filteredData, filterBanks, setBankData }}
+      value={{
+        data: banks,
+        filteredData,
+        filterBanks,
+        setBankData,
+        favoriteBanks: favorite,
+        toggleFavorite,
+      }}
     >
       {children}
     </DataContext.Provider>

@@ -5,7 +5,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Nav from "./components/Nav";
 import NotFound from "./views/NotFound";
 import DataContextProvider from "./context";
-import { BankInfo, Home } from "./views";
+import { BankInfo, Favorites, Home } from "./views";
 import { Sidebar } from "./components";
 
 const App = () => {
@@ -22,6 +22,9 @@ const App = () => {
               </Route>
               <Route path="/bankinfo/:ifsc">
                 <BankInfo />
+              </Route>
+              <Route exact path="/favorites">
+                <Favorites />
               </Route>
               <Route>
                 <NotFound />
