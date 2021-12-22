@@ -17,7 +17,6 @@ const Filter = () => {
 
   useEffect(() => {
     if (filterBanks && isMounted.current) {
-      console.log("hello");
       filterBanks();
     }
   }, [debouncedQuery, filters.city, filters.filter]);
